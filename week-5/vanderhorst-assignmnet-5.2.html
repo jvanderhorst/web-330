@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 5.2 - The Proxy Pattern</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- jquery Reference Library -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+</head>
+<body>
+
+    <div class="padding-md" id="container">
+        
+    <!-- Proxy Example -->
+    <h2>Proxy Example</h2>
+    <button class="btn-primary" id="btnExample">Run test</button>
+    <br /><span id="proxyExample"></span>
+
+    <hr />
+
+   
+</div>
+
+<script>
+    $(function() {
+        // Proxy Pattern
+        var mobilePlan =  {
+            provider: "AT&T",
+            phone: "iPhone 7",
+            data: "Unlimited",
+            display: function() {
+                $("#proxyExample").html("");
+                $("#proxyExample").append("<br />Provider: " + this.provider + "<br />" + "Phone: " + this.phone + "<br />" + "Data Plan: " +this.data);
+            }
+        };
+        $("#btnExample").click($.proxy(mobilePlan, "display"));
+    });
+</script>
+
+
+
+</body>
+</html>
