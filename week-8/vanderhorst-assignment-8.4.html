@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Exercise 8.4</title>
+
+        <!-- Stylesheet - Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <!-- JavaScript Libraries -->
+        <script src="../knockout-v3.4.2.js"></script>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div role="main" class="container">
+            <br/><br/>
+        
+            <h2>Exercise 8.4 - CRUD Operations</h2>
+            
+        
+            <br/>
+            <div class="row" data-bind="if: error">
+                <div class="col-sm-12">
+                <div class="alert alert-danger" role="alert">
+                    <strong>Warning!</strong>  <span data-bind="text: error()"></span>
+                </div>
+                </div>
+            </div>
+        
+            
+
+            <table class="table table-dark  table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: employeeList">
+                <tr>
+                    <td data-bind="text: id"></td>
+                    <td data-bind="text: name"></td>
+                </tr>
+                </tbody>
+            </table>
+            <span>
+                <a href="#" class="btn btn-success" data-bind="click: $root.edit">
+                    <i class="fa fa-pencil fa-lg"> </i> EDIT
+                </a>
+            </span> 
+            <span>
+                <a href="#" class="btn btn-danger" data-bind="click: $root.remove">
+                    <i class="fa fa-trash-o fa-lg"> </i> DELETE
+                </a>
+                </span>
+            <hr>
+            <div class="form-group row">
+                <label for="txtEmployee" class="col-10 col-form-label">Enter Employee Name: </label>
+                <div class="col-6">
+                    <input type="text" data-bind="value: nameToAdd, valueUpdate: 'afterkeydown'"
+                           class="form-control" id="txtName"/>
+                </div>
+                <div class="col-4">
+                    <a href="#" data-bind="click: add" class="btn btn-primary">Add</a>
+                </div>
+                <br>
+                <hr>
+                            
+                <div><button data-bind="click: $root.cancel" class="btn btn-group btn-danger">Cancel</button>
+                            <button data-bind="click: $root.update" class="btn btn-group btn-success">Save</button>
+                </div>
+            </div>
+
+          
+        
+        
+        <script>
+            function PayrollViewModel() {
+                var self = this;
+                self.nameToAdd = ko.observable("");
+                self.employeeList = ko.observableArray([
+                    {id: 1, name: "John Smith"},
+                    {id: 2, name: "Taylor Channing"},
+                    {id: 3, name: "Ernest Cline"},
+                    {id: 4, name: "Thomas Davis"}
+                    ]);
+                self.error = ko.observable("");
+
+                var employee = {
+                    id: self.id,
+                    name: self.name
+                };
+
+                self.add = function () {
+                    if ((self.nameToAdd() !== "") && (self.employeeList.indexOf(self.nameToAdd()) < 0)) {
+                        self.error("");
+                        self.employeeList.push(self.nameToAdd());
+                    }
+                    else {
+                        self.error("Duplicate or Invalid Entry.");
+                    }
+                    self.nameToAdd("");
+                }
+                self.edit = function (employee) {
+                    self.employee(employee);
+                };
+                self.remove = function(employee) {
+                    self.employees.remove(employee);
+                };
+                self.cancel = function() {
+                    self.employee(null);
+                };
+                self.update = function() {
+                    var _employee = self.employee();
+                    self.employees.remove(self.employee());
+                    self.employees.push(_employee);
+                }
+                
+            }
+
+            
+
+            ko.applyBindings(new PayrollViewModel());
+        </script>
+        
+    </body>
+</html>
